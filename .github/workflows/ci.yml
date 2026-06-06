@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY || 'ghcr.io/your-org/devops-microservices' }}
+  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY != '' && secrets.IMAGE_REGISTRY || format('ghcr.io/{0}', github.repository) }}
   IMAGE_TAG: ${{ github.run_number }}
 
 jobs:

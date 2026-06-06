@@ -52,7 +52,7 @@ To deploy from GitHub Actions, configure these repository secrets:
 
 - `GHCR_USERNAME`
 - `GHCR_TOKEN`
-- `IMAGE_REGISTRY`
+- `IMAGE_REGISTRY` (optional; defaults to `ghcr.io/<owner>/<repo>`)
 - `KUBE_CONFIG`
 
 ## Kubernetes check
