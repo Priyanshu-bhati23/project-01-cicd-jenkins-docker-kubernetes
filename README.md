@@ -36,6 +36,23 @@ uvicorn app:app --host 0.0.0.0 --port 8001
 
 Open a second terminal for `apps/orders` and run it on port `8002`.
 
+## GitHub Actions CI/CD
+
+This repository now includes a GitHub Actions workflow that runs on `main` and performs:
+
+- Python compile checks
+- Docker image builds for `catalog` and `orders`
+- Helm chart rendering
+- GHCR image push
+- Helm deploy to Kubernetes
+
+To deploy from GitHub Actions, configure these repository secrets:
+
+- `GHCR_USERNAME`
+- `GHCR_TOKEN`
+- `IMAGE_REGISTRY`
+- `KUBE_CONFIG`
+
 ## Kubernetes check
 
 Render the chart:
