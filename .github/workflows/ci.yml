@@ -25,10 +25,6 @@ jobs:
         run: python -m compileall apps
       - name: Render Helm chart
         run: helm template demo helm/microservices
-      - name: Build catalog image
-        run: docker build -t ${{ env.IMAGE_REGISTRY }}/catalog:${{ env.IMAGE_TAG }} ./apps/catalog
-      - name: Build orders image
-        run: docker build -t ${{ env.IMAGE_REGISTRY }}/orders:${{ env.IMAGE_TAG }} ./apps/orders
 
   push:
     needs: test
@@ -41,10 +37,19 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
-      - name: Push catalog image
-        run: docker push ${{ env.IMAGE_REGISTRY }}/catalog:${{ env.IMAGE_TAG }}
-      - name: Push orders image
-        run: docker push ${{ env.IMAGE_REGISTRY }}/orders:${{ env.IMAGE_TAG }}
+      - uses: docker/setup-buildx-action@v3
+      - name: Build and push catalog image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/catalog
+          push: true
+          tags: ${{ env.IMAGE_REGISTRY }}/catalog:${{ env.IMAGE_TAG }}
+      - name: Build and push orders image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/orders
+          push: true
+          tags: ${{ env.IMAGE_REGISTRY }}/orders:${{ env.IMAGE_TAG }}
 
   deploy:
     needs: push
