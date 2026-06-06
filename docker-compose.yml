@@ -1,0 +1,10 @@
+services:
+  catalog:
+    build: ./apps/catalog
+    ports:
+      - "8001:8001"
+  orders:
+    build: ./apps/orders
+    ports:
+      - "8002:8002"
+

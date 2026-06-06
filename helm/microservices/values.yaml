@@ -1,0 +1,27 @@
+image:
+  registry: ghcr.io/your-org/devops-microservices
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  host: demo.local
+
+services:
+  catalog:
+    port: 8001
+    replicas: 2
+    path: /catalog
+  orders:
+    port: 8002
+    replicas: 2
+    path: /orders
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+

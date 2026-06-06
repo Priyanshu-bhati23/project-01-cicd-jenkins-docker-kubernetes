@@ -1,0 +1,23 @@
+name: microservices-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python services
+        run: python -m compileall apps
+      - name: Build catalog image
+        run: docker build -t catalog:test apps/catalog
+      - name: Build orders image
+        run: docker build -t orders:test apps/orders
+      - name: Render Helm chart
+        run: helm template demo helm/microservices
+
